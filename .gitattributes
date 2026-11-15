@@ -1,7 +1,5 @@
-# Installed agent skills and copied third-party components are not this
+# open-slide's skills and copied third-party components are not this
 # project's code. Keep them out of GitHub's language statistics and diffs.
-.agents/** linguist-vendored
-.claude/** linguist-vendored
 apps/deck/.agents/** linguist-vendored
 apps/deck/.claude/** linguist-vendored
 packages/grid-paper/src/DotGrid.* linguist-vendored

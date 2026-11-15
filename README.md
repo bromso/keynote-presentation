@@ -36,12 +36,19 @@ bun run dev
 | `bun run format` | Format and apply safe lint fixes with Biome |
 | `bun run typecheck` | Type-check every workspace |
 | `bun run render:clay` | Redraw the clay ball's still image |
+| `bun run skills:restore` | Install the agent skills listed in `skills-lock.json` |
 
 ## Third-party code
 
 - `packages/grid-paper/src/` contains three components from [React Bits](https://reactbits.dev) under their licence (`packages/grid-paper/LICENSE-react-bits.md`).
-- `.agents/` and `apps/deck/.agents/` hold installed agent skills.
+- `apps/deck/.agents/` holds open-slide's own agent skills.
 
 Both are marked as vendored in `.gitattributes` and skipped by Biome.
+
+Two more agent skills, Impeccable and vgpu, are listed in `skills-lock.json` but not stored in the repo. To install them after cloning:
+
+```bash
+bun run skills:restore
+```
 
 See [`apps/deck/README.md`](apps/deck/README.md) for how to author a slide.

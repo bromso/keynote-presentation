@@ -27,7 +27,8 @@
     "typecheck": "bun run --filter '*' typecheck",
     "check": "bun run lint && bun run typecheck && bun run build",
     "render:clay": "bun run --filter @keynote/clay-ball render",
-    "sync:skills": "bun run --filter deck sync:skills"
+    "sync:skills": "bun run --filter deck sync:skills",
+    "skills:restore": "bunx skills experimental_install -y"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.8",

@@ -16,7 +16,8 @@ docs/superpowers/      design docs and plans
 - **TypeScript only.** No `.js` / `.mjs` files of our own.
 - **Bun only.** Use `bun` and `bunx`, not npm, pnpm or yarn. Shared versions live in the `catalog` in the root `package.json`.
 - **Do not add dependencies without asking.**
-- **Leave third-party code as shipped:** `.agents/`, `.claude/`, `apps/deck/.agents/`, the React Bits files in `packages/grid-paper/src/` (`DotGrid`, `CursorGrid`, `Crosshair`; local patches are marked `[open-slide]`), and `apps/deck/slides/getting-started/`. Biome skips all of them.
+- **Third-party skills are not in git.** Impeccable and vgpu install into `.agents/` and `.claude/skills/` at the root, which are ignored. `skills-lock.json` records them; run `bun run skills:restore` after a fresh clone. Add or update them with `npx skills`, which keeps the lockfile current.
+- **Leave third-party code as shipped:** `apps/deck/.agents/` (open-slide's skills, tracked), the React Bits files in `packages/grid-paper/src/` (`DotGrid`, `CursorGrid`, `Crosshair`; local patches are marked `[open-slide]`), and `apps/deck/slides/getting-started/`. Biome skips all of them.
 
 ## Commands (from the repo root)
 
@@ -29,3 +30,4 @@ docs/superpowers/      design docs and plans
 | `bun run typecheck` | `tsc --noEmit` in every workspace |
 | `bun run render:clay` | Redraw the clay ball's still PNG from its shader |
 | `bun run sync:skills` | Update the open-slide skills in `apps/deck` |
+| `bun run skills:restore` | Reinstall the third-party skills listed in `skills-lock.json` |
