@@ -1,11 +1,10 @@
 // ClayBall: a slowly turning clay ball for an open-slide page.
 //
-// It shows a still PNG, then swaps to a live WebGPU render (vgpu) once the
-// first frame has drawn. Thumbnails, print, reduced motion and browsers
+// It shows a still PNG, then crossfades to a live WebGPU render (vgpu) once
+// the first frame has drawn. Thumbnails, print, reduced motion and browsers
 // without WebGPU keep the PNG.
 import { useIsActivePage } from '@open-slide/core';
 import { animate, motionValue } from 'motion';
-import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import clayStill from './clay-ball.png';
 import { CLAY_EXTENT, CLAY_PX, CLAY_WGSL } from './shader';
@@ -88,22 +87,18 @@ export const ClayBall = ({ x, y, size = 200 }: ClayBallProps) => {
     <div
       style={{ position: 'absolute', left: x - box / 2, top: y - box / 2, width: box, height: box }}
     >
-      <motion.img
+      {/* Plain elements with a CSS crossfade. A motion.img here kept
+          open-slide's preview waiting on img.decode() for seconds. */}
+      <img
         src={clayStill}
         alt=""
-        style={fill}
-        initial={false}
-        animate={{ opacity: live ? 0 : 1 }}
-        transition={{ duration: live ? 0.3 : 0 }}
+        style={{ ...fill, opacity: live ? 0 : 1, transition: live ? 'opacity 0.3s' : 'none' }}
       />
-      <motion.canvas
+      <canvas
         ref={canvasRef}
         width={CLAY_PX}
         height={CLAY_PX}
-        style={fill}
-        initial={false}
-        animate={{ opacity: live ? 1 : 0 }}
-        transition={{ duration: live ? 0.3 : 0 }}
+        style={{ ...fill, opacity: live ? 1 : 0, transition: live ? 'opacity 0.3s' : 'none' }}
       />
     </div>
   );

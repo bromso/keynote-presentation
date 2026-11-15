@@ -14,7 +14,7 @@ docs/superpowers/      design docs and plans
 
 The deck:
 
-- `apps/deck/slides/design-loop` — "Design is a loop now"
+- `apps/deck/slides/showcase` — a short deck that demonstrates the theme and the three packages
 
 ## Getting started
 
@@ -58,6 +58,6 @@ Every push to `main` is checked and published to GitHub Pages by `.github/workfl
 
 ## Licence
 
-The code (packages, theme, tooling) is MIT. The talk itself, meaning the slides, speaker notes and the documents under `docs/`, is all rights reserved. React Bits components and the Inter font keep their own licences. [`LICENSE`](LICENSE) has the details.
+Everything written for this repo is MIT, including the showcase deck. React Bits components and the Inter font keep their own licences. An earlier talk, "Design is a loop now", used to live here; it has moved out, and the copies of it in this repo's history remain all rights reserved. [`LICENSE`](LICENSE) has the details.
 
 See [`apps/deck/README.md`](apps/deck/README.md) for how to author a slide.

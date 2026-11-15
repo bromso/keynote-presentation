@@ -24,18 +24,19 @@ SOFTWARE.
 
 What this licence covers, and what it does not
 
-The MIT licence above covers the code in this repository written for it: the
-workspace packages under packages/, the grid-paper theme under
-apps/deck/themes/, and the configuration and tooling at the repository root.
+The MIT licence above covers everything written for this repository: the
+workspace packages under packages/, the grid-paper theme and the showcase
+deck under apps/deck/, the documents under docs/, and the configuration and
+tooling at the repository root.
 
 It does not cover the following, which stay under the terms stated here:
 
-1. The talk. The content of apps/deck/slides/ (slide text, speaker notes,
-   structure and images) and the documents under docs/ are
-   Copyright (c) 2026 Jonas Broms, all rights reserved. Reading and running
-   them is welcome; republishing or presenting them as your own is not
-   permitted without written permission. Code patterns in those files may be
-   reused under the MIT licence above.
+1. An earlier talk. The deck "Design is a loop now" (slide text, speaker
+   notes and structure) was developed in this repository and has since been
+   moved out. Copies of it in this repository's git history, and the design
+   documents about it there, are Copyright (c) 2026 Jonas Broms, all rights
+   reserved. Republishing or presenting that talk as your own is not
+   permitted without written permission.
 
 2. React Bits components. packages/grid-paper/src/DotGrid.tsx, DotGrid.css,
    CursorGrid.tsx, CursorGrid.css and Crosshair.tsx are from React Bits by
