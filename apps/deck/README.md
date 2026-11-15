@@ -11,7 +11,7 @@ bun install
 bun run dev
 ```
 
-Then open the dev server and edit `slides/getting-started/index.tsx`, or create a new slide at `slides/<your-slide>/index.tsx`.
+Then open the dev server and edit `slides/design-loop/index.tsx`, or create a new slide at `slides/<your-slide>/index.tsx`.
 
 ## Scripts
 

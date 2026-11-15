@@ -19,10 +19,26 @@ mode: light
 
 ## Typography
 
-- Display font: `-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", system-ui, sans-serif` — weight 800, letter-spacing `-0.035em`.
+- Display font: `"InterVariable", "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, sans-serif` — weight 800, letter-spacing `-0.035em`.
 - Body font: same stack — weight 400–500.
 - Label font: `ui-monospace, "SF Mono", Menlo, Consolas, monospace` — uppercase, letter-spacing `0.12em`. Used for eyebrows, step numbers, diagram labels, footer.
-- No webfont import.
+- Inter is bundled, not fetched: `assets/fonts/InterVariable.woff2` (SIL Open Font License, `assets/fonts/LICENSE.txt`). Register it once from module top level, never inside a page:
+
+  ```tsx
+  import interUrl from '@assets/fonts/InterVariable.woff2';
+
+  const FONT_STYLE_ID = 'osd-font-<slide-id>';
+  const FONT_CSS = `@font-face { font-family: "InterVariable"; font-style: normal; font-weight: 100 900; font-display: block; src: url("${interUrl}") format("woff2"); }`;
+  if (typeof document !== 'undefined') {
+    let style = document.getElementById(FONT_STYLE_ID);
+    if (!style) {
+      style = document.createElement('style');
+      style.id = FONT_STYLE_ID;
+      document.head.appendChild(style);
+    }
+    if (style.textContent !== FONT_CSS) style.textContent = FONT_CSS;
+  }
+  ```
 - Type-scale overrides:
   - Hero title: 144 px
   - Page heading: 88–96 px
@@ -54,9 +70,9 @@ It lives in `packages/grid-paper/` and draws three layers on one 120 px module:
 
 - CSS lines and dots. Always present; this is what thumbnails, print and reduced motion show.
 - On the page the audience is watching, React Bits `DotGrid` draws the dots (they swell and darken near the pointer) and `CursorGrid` darkens the lines around the pointer.
-- React Bits `Crosshair`: two pencil-gray hairlines that follow the pointer, with a readout in slide units. It brackets any element marked `data-crosshair-target`.
+- React Bits `Crosshair`: two pencil-gray hairlines that follow the pointer, with a readout in slide units. It brackets any element marked `data-crosshair-target`. It appears only in present mode and fades when the mouse is idle.
 
-Props, all optional: `module` (120), `line`, `dot`, `dotSize` (5), `live` (true), `cursor` (true), `cursorTargets`. Use `<GridPaper live={false} cursor={false}>` for a completely still page.
+Props, all optional: `module` (120), `line`, `dot`, `dotSize` (5), `live` (true), `cursor` (`'present'`; `true` shows it in the editor too, `false` never), `cursorTargets`. Use `<GridPaper live={false} cursor={false}>` for a completely still page.
 
 Everything interactive stays gray. Do not give these layers the accent colour.
 

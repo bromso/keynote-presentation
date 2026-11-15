@@ -8,7 +8,8 @@
 //      DotGrid draws the dots (they swell and darken near the pointer) and
 //      CursorGrid darkens the lines around the pointer.
 //   3. Crosshair: two hairlines that follow the pointer, with a readout in
-//      slide units.
+//      slide units. By default only in present mode, and it fades when the
+//      player hides the cursor (idle mouse, keyboard navigation, laser).
 //
 // Import from a slide or theme with:  import { GridPaper } from '@keynote/grid-paper';
 import { useIsActivePage } from '@open-slide/core';
@@ -36,8 +37,11 @@ export type GridPaperProps = {
   dotSize?: number;
   /** Pointer-reactive dots and lines on the on-stage page. */
   live?: boolean;
-  /** Crosshair cursor on the on-stage page. */
-  cursor?: boolean;
+  /**
+   * Crosshair cursor on the on-stage page. `'present'` (the default) shows it
+   * only in open-slide's present mode, so the editor keeps the normal cursor.
+   */
+  cursor?: 'present' | boolean;
   /** CSS selector for elements the crosshair brackets when it is over them. */
   cursorTargets?: string;
 };
@@ -80,7 +84,7 @@ export const GridPaper = ({
   dot = GRID.dot,
   dotSize = GRID.dotSize,
   live = true,
-  cursor = true,
+  cursor = 'present',
   cursorTargets = '[data-crosshair-target]',
 }: GridPaperProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -105,7 +109,28 @@ export const GridPaper = ({
     setHandedOver(false);
   }, [liveOn, scale]);
   const cssDots = !(liveOn && handedOver);
-  const cursorOn = moving && cursor && scale > 0;
+
+  // open-slide's player is the element that directly holds its control chrome.
+  // Being inside it means present mode. The player also drops the system
+  // cursor (class `cursor-none`) when the mouse is idle, after keyboard
+  // navigation and while the laser pointer is on; the crosshair follows suit.
+  const [presenting, setPresenting] = useState(false);
+  const [parked, setParked] = useState(false);
+  useEffect(() => {
+    const player = moving ? rootRef.current?.closest(':has(> [data-osd-chrome])') : null;
+    setPresenting(Boolean(player));
+    if (!player) {
+      setParked(false);
+      return;
+    }
+    const read = () => setParked(player.classList.contains('cursor-none'));
+    read();
+    const observer = new MutationObserver(read);
+    observer.observe(player, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, [moving]);
+
+  const cursorOn = moving && scale > 0 && (cursor === 'present' ? presenting : cursor);
 
   // The React Bits grids centre themselves in their box. A box that bleeds half
   // a module past every edge puts their lines and dots on the same
@@ -154,6 +179,9 @@ export const GridPaper = ({
                 runtime's scale applies on top. */}
             <CursorGrid
               cellSize={module}
+              // A soft darkening of 1 px lines: 2x resolution costs four times
+              // the pixels and shows nothing.
+              dpr={1}
               lightMode
               color={GRID.pencil}
               gridOpacity={0}
@@ -191,20 +219,27 @@ export const GridPaper = ({
       ) : null}
       {children}
       {cursorOn ? (
-        <Crosshair
-          key={`cursor-${scale}`}
-          containerRef={rootRef}
-          color={GRID.pencil}
-          thickness={1}
-          opacity={0.7}
-          gap={10}
-          smoothing={0.25}
-          showCoordinates
-          targetEffect="lock"
-          targetSelector={cursorTargets}
-          clickPulse
-          hideCursor
-        />
+        <motion.div
+          style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 10000 }}
+          initial={false}
+          animate={{ opacity: parked ? 0 : 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          <Crosshair
+            key={`cursor-${scale}`}
+            containerRef={rootRef}
+            color={GRID.pencil}
+            thickness={1}
+            opacity={0.7}
+            gap={10}
+            smoothing={0.25}
+            showCoordinates
+            targetEffect="lock"
+            targetSelector={cursorTargets}
+            clickPulse
+            hideCursor
+          />
+        </motion.div>
       ) : null}
     </div>
   );

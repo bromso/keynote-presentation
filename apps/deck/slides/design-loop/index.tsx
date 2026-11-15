@@ -1,3 +1,4 @@
+import interUrl from '@assets/fonts/InterVariable.woff2';
 import { ClayBall } from '@keynote/clay-ball';
 import { GridPaper } from '@keynote/grid-paper';
 import { Reveal } from '@keynote/motion';
@@ -12,11 +13,27 @@ import {
 } from '@open-slide/core';
 import type { ReactNode } from 'react';
 
+// Inter ships with the deck, so every machine shows the same letterforms.
+// Registered once in <head> (never per page: every page is mounted at once for
+// thumbnails), and updated in place so hot reload picks up changes.
+const FONT_STYLE_ID = 'osd-font-design-loop';
+const FONT_CSS = `@font-face { font-family: "InterVariable"; font-style: normal; font-weight: 100 900; font-display: block; src: url("${interUrl}") format("woff2"); }`;
+if (typeof document !== 'undefined') {
+  let style = document.getElementById(FONT_STYLE_ID);
+  if (!style) {
+    style = document.createElement('style');
+    style.id = FONT_STYLE_ID;
+    document.head.appendChild(style);
+  }
+  if (style.textContent !== FONT_CSS) style.textContent = FONT_CSS;
+}
+
 export const design: DesignSystem = {
   palette: { bg: '#fafaf7', text: '#161616', accent: '#ff4a1c' },
   fonts: {
-    display: '-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", system-ui, sans-serif',
-    body: '-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", system-ui, sans-serif',
+    display:
+      '"InterVariable", "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, sans-serif',
+    body: '"InterVariable", "Inter", -apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, sans-serif',
   },
   typeScale: { hero: 144, body: 40 },
   radius: 0,
@@ -96,6 +113,7 @@ const Lede = ({ children, width = 1200 }: { children: ReactNode; width?: number 
       style={{
         fontSize: 'var(--osd-size-body)',
         lineHeight: 1.4,
+        letterSpacing: '-0.014em',
         color: muted,
         margin: '36px 0 0',
         maxWidth: width,
@@ -294,6 +312,7 @@ const LoopStage = ({
           style={{
             fontSize: 34,
             lineHeight: 1.42,
+            letterSpacing: '-0.014em',
             color: muted,
             margin: '32px 0 0',
             textWrap: 'balance',

@@ -10,7 +10,6 @@
       "!**/dist",
       "!**/bun.lock",
       "!skills-lock.json",
-      "!apps/deck/slides/getting-started",
       "!packages/grid-paper/src/DotGrid.*",
       "!packages/grid-paper/src/CursorGrid.*",
       "!packages/grid-paper/src/Crosshair.tsx"

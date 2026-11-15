@@ -12,10 +12,9 @@ packages/motion/       entrance animations, built on Motion (motion.dev)
 docs/superpowers/      design docs and plans
 ```
 
-The decks:
+The deck:
 
 - `apps/deck/slides/design-loop` — "Design is a loop now"
-- `apps/deck/slides/getting-started` — the open-slide starter deck
 
 ## Getting started
 
