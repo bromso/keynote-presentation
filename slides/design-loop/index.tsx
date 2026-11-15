@@ -9,6 +9,7 @@ import {
   useSlidePageNumber,
 } from '@open-slide/core';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
+import { GridPaper } from '@assets/grid-paper';
 import clayStill from './assets/clay-ball.png';
 
 export const design: DesignSystem = {
@@ -43,27 +44,6 @@ const loopMorph: SlideTransition = {
   enter: { duration: 300, easing: EASE_OUT, keyframes: [{ opacity: 0 }, { opacity: 1 }] },
   morph: { duration: 800, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
 };
-
-const GridPaper = ({ children }: { children: ReactNode }) => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      position: 'relative',
-      overflow: 'hidden',
-      backgroundColor: 'var(--osd-bg)',
-      backgroundImage:
-        'radial-gradient(circle, #bdbdb6 2.5px, transparent 3.2px), linear-gradient(to right, #dfdfd9 1px, transparent 1px), linear-gradient(to bottom, #dfdfd9 1px, transparent 1px)',
-      backgroundSize: '120px 120px',
-      backgroundPosition: '-60px -60px, 0 0, 0 0',
-      color: 'var(--osd-text)',
-      fontFamily: 'var(--osd-font-body)',
-      WebkitFontSmoothing: 'antialiased',
-    }}
-  >
-    {children}
-  </div>
-);
 
 const Title = ({ children, size = 96 }: { children: ReactNode; size?: number }) => (
   <h1
@@ -168,6 +148,7 @@ const LoopNode = ({ i, label, on }: { i: number; label: string; on: boolean }) =
   return (
     <>
       <div
+        data-crosshair-target
         style={{
           position: 'absolute',
           left: x - NODE / 2,
