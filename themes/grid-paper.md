@@ -1,0 +1,176 @@
+---
+name: Grid Paper
+description: White-ish drafting paper with gray grid lines and dots, black ink, and one orange marker.
+mode: light
+---
+
+# Grid Paper
+
+## Palette
+
+| Role   | Value     | Notes                                                    |
+| ------ | --------- | -------------------------------------------------------- |
+| bg     | `#fafaf7` | paper                                                    |
+| text   | `#161616` | ink: headlines, body, diagram strokes                    |
+| accent | `#ff4a1c` | one "you are here" marker per page, never text or fills  |
+| muted  | `#6e6e68` | secondary copy, labels, footer                           |
+| line   | `#dfdfd9` | grid lines                                               |
+| dot    | `#bdbdb6` | dots on grid intersections                               |
+
+## Typography
+
+- Display font: `-apple-system, BlinkMacSystemFont, "Inter", "Helvetica Neue", system-ui, sans-serif` — weight 800, letter-spacing `-0.035em`.
+- Body font: same stack — weight 400–500.
+- Label font: `ui-monospace, "SF Mono", Menlo, Consolas, monospace` — uppercase, letter-spacing `0.12em`. Used for eyebrows, step numbers, diagram labels, footer.
+- No webfont import.
+- Type-scale overrides:
+  - Hero title: 144 px
+  - Page heading: 88–96 px
+  - Body text: 36–40 px
+  - Label: 22–26 px
+
+## Layout
+
+- Content padding: 120 px from every canvas edge.
+- The grid is the layout module: 120 px squares, 16 × 9 across the 1920 × 1080 canvas. Left edges, column starts, table rows and diagram anchors sit on grid lines.
+- Alignment: left-aligned. Diagrams take the right half.
+- Grid notes: lines are 1 px `#dfdfd9`; a 5 px `#bdbdb6` dot sits on every intersection. Both are CSS gradients, no image assets.
+
+## Fixed components
+
+These are paste-ready. Copy them verbatim into a slide that uses this theme.
+
+### GridPaper
+
+The root of every page.
+
+```tsx
+const GridPaper = ({ children }: { children: React.ReactNode }) => (
+  <div
+    style={{
+      width: '100%',
+      height: '100%',
+      position: 'relative',
+      overflow: 'hidden',
+      backgroundColor: 'var(--osd-bg)',
+      backgroundImage:
+        'radial-gradient(circle, #bdbdb6 2.5px, transparent 3.2px), linear-gradient(to right, #dfdfd9 1px, transparent 1px), linear-gradient(to bottom, #dfdfd9 1px, transparent 1px)',
+      backgroundSize: '120px 120px',
+      backgroundPosition: '-60px -60px, 0 0, 0 0',
+      color: 'var(--osd-text)',
+      fontFamily: 'var(--osd-font-body)',
+      WebkitFontSmoothing: 'antialiased',
+    }}
+  >
+    {children}
+  </div>
+);
+```
+
+### Title
+
+```tsx
+const Title = ({ children, size = 96 }: { children: React.ReactNode; size?: number }) => (
+  <h1
+    style={{
+      fontFamily: 'var(--osd-font-display)',
+      fontSize: size,
+      fontWeight: 800,
+      lineHeight: 1.04,
+      letterSpacing: '-0.035em',
+      margin: 0,
+      color: 'var(--osd-text)',
+    }}
+  >
+    {children}
+  </h1>
+);
+```
+
+### Eyebrow
+
+```tsx
+const Eyebrow = ({ children }: { children: React.ReactNode }) => (
+  <div
+    style={{
+      fontFamily: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace',
+      fontSize: 24,
+      lineHeight: 1.25,
+      letterSpacing: '0.12em',
+      textTransform: 'uppercase',
+      color: '#6e6e68',
+    }}
+  >
+    {children}
+  </div>
+);
+```
+
+### Footer
+
+Pull the page number from `useSlidePageNumber()` — never hardcode it.
+
+```tsx
+import { useSlidePageNumber } from '@open-slide/core';
+
+const Footer = ({ label }: { label: string }) => {
+  const { current, total } = useSlidePageNumber();
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: 120,
+        right: 120,
+        bottom: 46,
+        display: 'flex',
+        justifyContent: 'space-between',
+        fontFamily: 'ui-monospace, "SF Mono", Menlo, Consolas, monospace',
+        fontSize: 22,
+        letterSpacing: '0.12em',
+        textTransform: 'uppercase',
+        color: '#6e6e68',
+      }}
+    >
+      <span>{label}</span>
+      <span>
+        {String(current).padStart(2, '0')} / {String(total).padStart(2, '0')}
+      </span>
+    </div>
+  );
+};
+```
+
+## Motion
+
+- Philosophy: subtle — pages dissolve; the only thing that travels is the accent marker, via a morph.
+- Reusable transition (paste-ready):
+
+```tsx
+export const transition: SlideTransition = {
+  duration: 240,
+  exit: { duration: 240, easing: 'cubic-bezier(0.4, 0, 1, 1)', keyframes: [{ opacity: 1 }, { opacity: 1 }] },
+  enter: { duration: 240, easing: 'cubic-bezier(0, 0, 0.2, 1)', keyframes: [{ opacity: 0 }, { opacity: 1 }] },
+};
+```
+
+## Aesthetic
+
+Drafting paper in daylight. A working surface, not a stage: the grid is visible because the layout really sits on it. Black ink, gray pencil, and a single orange marker that says "you are here" — use it once per page or not at all. Diagrams are thin strokes and small circles. No gradients, no shadows, no rounded cards, no emoji, no second accent colour.
+
+## Example usage
+
+```tsx
+const Cover: Page = () => (
+  <GridPaper>
+    <div style={{ position: 'absolute', left: 120, top: 360, width: 1200 }}>
+      <Eyebrow>Chapter 01</Eyebrow>
+      <div style={{ height: 28 }} />
+      <Title size={144}>The big idea.</Title>
+      <p style={{ fontSize: 40, lineHeight: 1.4, color: '#6e6e68', margin: '36px 0 0' }}>
+        A short subtitle that explains what this deck is about.
+      </p>
+    </div>
+    <Footer label="Grid Paper" />
+  </GridPaper>
+);
+```
