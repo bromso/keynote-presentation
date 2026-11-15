@@ -1,3 +1,7 @@
 node_modules
 dist
 .DS_Store
+
+# Third-party agent skills. Restore with: bun run skills:restore
+/.agents/
+/.claude/skills/
