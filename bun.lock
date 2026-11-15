@@ -21,6 +21,7 @@
         "react-dom": "catalog:",
       },
       "devDependencies": {
+        "@types/bun": "catalog:",
         "@types/react": "catalog:",
         "@types/react-dom": "catalog:",
         "typescript": "catalog:",
@@ -37,7 +38,7 @@
       },
       "devDependencies": {
         "@open-slide/core": "catalog:",
-        "@types/bun": "^1.4.4",
+        "@types/bun": "catalog:",
         "@types/pngjs": "^6.0.5",
         "@types/react": "catalog:",
         "@types/react-dom": "catalog:",
@@ -96,6 +97,7 @@
   },
   "catalog": {
     "@open-slide/core": "^2.0.0",
+    "@types/bun": "^1.4.4",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "motion": "^14.14.0",

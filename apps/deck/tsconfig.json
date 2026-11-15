@@ -1,4 +1,7 @@
 {
   "extends": "../../tsconfig.base.json",
-  "include": ["slides/**/*", "themes/**/*", "open-slide.config.ts"]
+  "include": ["slides/**/*", "themes/**/*", "open-slide.config.ts"],
+  "compilerOptions": {
+    "types": ["@open-slide/core/env", "bun"]
+  }
 }
