@@ -1,3 +1,4 @@
+import { GridPaper } from '@keynote/grid-paper';
 import { type DesignSystem, type Page, useSlidePageNumber } from '@open-slide/core';
 import type { ReactNode } from 'react';
 
@@ -13,27 +14,6 @@ export const design: DesignSystem = {
 
 const muted = '#6e6e68';
 const mono = 'ui-monospace, "SF Mono", Menlo, Consolas, monospace';
-
-const GridPaper = ({ children }: { children: ReactNode }) => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      position: 'relative',
-      overflow: 'hidden',
-      backgroundColor: 'var(--osd-bg)',
-      backgroundImage:
-        'radial-gradient(circle, #bdbdb6 2.5px, transparent 3.2px), linear-gradient(to right, #dfdfd9 1px, transparent 1px), linear-gradient(to bottom, #dfdfd9 1px, transparent 1px)',
-      backgroundSize: '120px 120px',
-      backgroundPosition: '-60px -60px, 0 0, 0 0',
-      color: 'var(--osd-text)',
-      fontFamily: 'var(--osd-font-body)',
-      WebkitFontSmoothing: 'antialiased',
-    }}
-  >
-    {children}
-  </div>
-);
 
 const Title = ({ children, size = 96 }: { children: ReactNode; size?: number }) => (
   <h1
@@ -108,7 +88,9 @@ const Cover: Page = () => (
 
 const Point = ({ n, children }: { n: string; children: ReactNode }) => (
   <div style={{ display: 'flex', alignItems: 'baseline', gap: 36, height: 120 }}>
-    <span style={{ fontFamily: mono, fontSize: 24, letterSpacing: '0.12em', color: muted, width: 84 }}>
+    <span
+      style={{ fontFamily: mono, fontSize: 24, letterSpacing: '0.12em', color: muted, width: 84 }}
+    >
       {n}
     </span>
     <span style={{ fontSize: 44, lineHeight: 1.2 }}>{children}</span>

@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["@open-slide/core/env", "bun"]
+  },
+  "include": ["src/**/*", "scripts/**/*"]
+}

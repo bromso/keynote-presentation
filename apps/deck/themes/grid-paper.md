@@ -34,7 +34,7 @@ mode: light
 - Content padding: 120 px from every canvas edge.
 - The grid is the layout module: 120 px squares, 16 × 9 across the 1920 × 1080 canvas. Left edges, column starts, table rows and diagram anchors sit on grid lines.
 - Alignment: left-aligned. Diagrams take the right half.
-- Grid notes: lines are 1 px `#dfdfd9`; a 5 px `#bdbdb6` dot sits on every intersection. Both are CSS gradients, no image assets.
+- Grid notes: lines are 1 px `#dfdfd9`; a 5 px `#bdbdb6` dot sits on every intersection. `GridPaper` (below) draws both; no image assets.
 
 ## Fixed components
 
@@ -42,30 +42,23 @@ These are paste-ready. Copy them verbatim into a slide that uses this theme.
 
 ### GridPaper
 
-The root of every page.
+The root of every page. It is a shared module, not pasted code: import it.
 
 ```tsx
-const GridPaper = ({ children }: { children: React.ReactNode }) => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      position: 'relative',
-      overflow: 'hidden',
-      backgroundColor: 'var(--osd-bg)',
-      backgroundImage:
-        'radial-gradient(circle, #bdbdb6 2.5px, transparent 3.2px), linear-gradient(to right, #dfdfd9 1px, transparent 1px), linear-gradient(to bottom, #dfdfd9 1px, transparent 1px)',
-      backgroundSize: '120px 120px',
-      backgroundPosition: '-60px -60px, 0 0, 0 0',
-      color: 'var(--osd-text)',
-      fontFamily: 'var(--osd-font-body)',
-      WebkitFontSmoothing: 'antialiased',
-    }}
-  >
-    {children}
-  </div>
-);
+import { GridPaper } from '@keynote/grid-paper';
+
+<GridPaper>{/* page content */}</GridPaper>
 ```
+
+It lives in `packages/grid-paper/` and draws three layers on one 120 px module:
+
+- CSS lines and dots. Always present; this is what thumbnails, print and reduced motion show.
+- On the page the audience is watching, React Bits `DotGrid` draws the dots (they swell and darken near the pointer) and `CursorGrid` darkens the lines around the pointer.
+- React Bits `Crosshair`: two pencil-gray hairlines that follow the pointer, with a readout in slide units. It brackets any element marked `data-crosshair-target`.
+
+Props, all optional: `module` (120), `line`, `dot`, `dotSize` (5), `live` (true), `cursor` (true), `cursorTargets`. Use `<GridPaper live={false} cursor={false}>` for a completely still page.
+
+Everything interactive stays gray. Do not give these layers the accent colour.
 
 ### Title
 

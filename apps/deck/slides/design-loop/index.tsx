@@ -1,3 +1,5 @@
+import { ClayBall } from '@keynote/clay-ball';
+import { GridPaper } from '@keynote/grid-paper';
 import {
   type DesignSystem,
   ImagePlaceholder,
@@ -42,27 +44,6 @@ const loopMorph: SlideTransition = {
   morph: { duration: 800, easing: 'cubic-bezier(0.4, 0, 0.2, 1)' },
 };
 
-const GridPaper = ({ children }: { children: ReactNode }) => (
-  <div
-    style={{
-      width: '100%',
-      height: '100%',
-      position: 'relative',
-      overflow: 'hidden',
-      backgroundColor: 'var(--osd-bg)',
-      backgroundImage:
-        'radial-gradient(circle, #bdbdb6 2.5px, transparent 3.2px), linear-gradient(to right, #dfdfd9 1px, transparent 1px), linear-gradient(to bottom, #dfdfd9 1px, transparent 1px)',
-      backgroundSize: '120px 120px',
-      backgroundPosition: '-60px -60px, 0 0, 0 0',
-      color: 'var(--osd-text)',
-      fontFamily: 'var(--osd-font-body)',
-      WebkitFontSmoothing: 'antialiased',
-    }}
-  >
-    {children}
-  </div>
-);
-
 const Title = ({ children, size = 96 }: { children: ReactNode; size?: number }) => (
   <h1
     style={{
@@ -71,7 +52,7 @@ const Title = ({ children, size = 96 }: { children: ReactNode; size?: number }) 
       fontWeight: 800,
       lineHeight: 1.04,
       letterSpacing: '-0.035em',
-      textWrap: "balance",
+      textWrap: 'balance',
       margin: 0,
       color: 'var(--osd-text)',
     }}
@@ -166,6 +147,7 @@ const LoopNode = ({ i, label, on }: { i: number; label: string; on: boolean }) =
   return (
     <>
       <div
+        data-crosshair-target
         style={{
           position: 'absolute',
           left: x - NODE / 2,
@@ -275,7 +257,17 @@ const LoopStage = ({
       }}
     >
       <Title size={72}>{title}</Title>
-      <p style={{ fontSize: 34, lineHeight: 1.42, color: muted, margin: '32px 0 0', textWrap: 'balance' }}>{line}</p>
+      <p
+        style={{
+          fontSize: 34,
+          lineHeight: 1.42,
+          color: muted,
+          margin: '32px 0 0',
+          textWrap: 'balance',
+        }}
+      >
+        {line}
+      </p>
       {slot && <div style={{ marginTop: 40 }}>{slot}</div>}
       {tool && (
         <div
@@ -304,7 +296,17 @@ const Shot = ({ hint }: { hint: string }) => (
 
 // ── The old line ────────────────────────────────────────────────────────────
 
-const Stop = ({ x, y, label, hollow }: { x: number; y: number; label: string; hollow?: boolean }) => (
+const Stop = ({
+  x,
+  y,
+  label,
+  hollow,
+}: {
+  x: number;
+  y: number;
+  label: string;
+  hollow?: boolean;
+}) => (
   <>
     <div
       style={{
@@ -387,17 +389,7 @@ const Cover: Page = () => (
       <Lede width={840}>How I work with AI, Figma and code.</Lede>
     </div>
     <Ring />
-    <div
-      style={{
-        position: 'absolute',
-        left: NODES[0].x - MARK / 2,
-        top: NODES[0].y - MARK / 2,
-        width: MARK,
-        height: MARK,
-        borderRadius: 999,
-        background: 'var(--osd-accent)',
-      }}
-    />
+    <ClayBall x={NODES[0].x} y={NODES[0].y} />
     <div
       style={{
         position: 'absolute',
@@ -688,17 +680,7 @@ const Close: Page = () => (
       <Lede width={840}>Go round once.</Lede>
     </div>
     <Ring />
-    <div
-      style={{
-        position: 'absolute',
-        left: NODES[0].x - MARK / 2,
-        top: NODES[0].y - MARK / 2,
-        width: MARK,
-        height: MARK,
-        borderRadius: 999,
-        background: 'var(--osd-accent)',
-      }}
-    />
+    <ClayBall x={NODES[0].x} y={NODES[0].y} />
     <div
       style={{
         position: 'absolute',

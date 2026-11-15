@@ -1,6 +1,9 @@
 [build]
-  command = "npm run build"
-  publish = "dist"
+  command = "bun run build"
+  publish = "apps/deck/dist"
+
+[build.environment]
+  BUN_VERSION = "1.4.4"
 
 [[redirects]]
   from = "/*"

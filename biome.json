@@ -1,0 +1,23 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.8/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "includes": [
+      "**",
+      "!**/*.md",
+      "!**/.agents",
+      "!**/.claude",
+      "!**/dist",
+      "!**/bun.lock",
+      "!skills-lock.json",
+      "!apps/deck/slides/getting-started",
+      "!packages/grid-paper/src/DotGrid.*",
+      "!packages/grid-paper/src/CursorGrid.*",
+      "!packages/grid-paper/src/Crosshair.tsx"
+    ]
+  },
+  "formatter": { "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },
+  "javascript": { "formatter": { "quoteStyle": "single", "semicolons": "always" } },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } }
+}
