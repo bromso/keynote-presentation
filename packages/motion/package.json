@@ -1,0 +1,29 @@
+{
+  "name": "@keynote/motion",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Entrance animations for open-slide pages, built on Motion and gated to the on-stage page.",
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "motion": "catalog:"
+  },
+  "peerDependencies": {
+    "@open-slide/core": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@open-slide/core": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  }
+}

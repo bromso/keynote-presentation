@@ -13,7 +13,9 @@
     "render": "bun scripts/render.ts"
   },
   "dependencies": {
+    "@keynote/motion": "workspace:*",
     "@vgpu/wgsl": "0.6.0",
+    "motion": "catalog:",
     "vgpu": "^0.6.0"
   },
   "peerDependencies": {

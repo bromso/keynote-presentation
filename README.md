@@ -8,6 +8,7 @@ Talks built with [open-slide](https://open-slide.dev): slides are React componen
 apps/deck/             the open-slide workspace: slides, themes, config
 packages/grid-paper/   the grid-paper page background (dots, lines, crosshair cursor)
 packages/clay-ball/    the turning clay ball drawn with vgpu
+packages/motion/       entrance animations, built on Motion (motion.dev)
 docs/superpowers/      design docs and plans
 ```
 

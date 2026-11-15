@@ -10,7 +10,7 @@ You are authoring **slides** in this repo. Every slide is arbitrary React code t
 - The entry is `slides/<id>/index.tsx`.
 - Put slide-specific images/videos/fonts under `slides/<id>/assets/`. For assets reused across decks or themes (logos, avatars), use the global `assets/` folder and import via `@assets/...`.
 - Do **not** touch `package.json`, `open-slide.config.ts`, or other slides.
-- Do not add dependencies. Use only `react`, standard web APIs, and this repo's own workspace packages (`@keynote/grid-paper`, `@keynote/clay-ball`).
+- Do not add dependencies. Use only `react`, standard web APIs, and this repo's own workspace packages (`@keynote/grid-paper`, `@keynote/clay-ball`, `@keynote/motion`). For entrance animation use `Reveal` from `@keynote/motion`; do not import `motion` directly in a slide and do not hand-roll CSS keyframes.
 - Code shared between decks or themes does not go in `assets/` or in a slide folder. It goes in a workspace package under `packages/` at the repo root (see the root `CLAUDE.md`).
 
 ## Which skill to use

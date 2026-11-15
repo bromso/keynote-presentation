@@ -135,7 +135,8 @@ const Footer = ({ label }: { label: string }) => {
 
 ## Motion
 
-- Philosophy: subtle — pages dissolve; the only thing that travels is the accent marker, via a morph.
+- Philosophy: subtle — pages dissolve, the accent marker travels via a morph, and content arrives with one short entrance.
+- Entrances come from `Reveal` in `@keynote/motion` (built on Motion). Give each element an `order`; `from` is `rise` for text, `fade` for labels, `pop` for dots, `draw` for lines. They play only on the on-stage page and never with reduced motion. Do not animate a `MorphElement` or anything that holds one.
 - Reusable transition (paste-ready):
 
 ```tsx

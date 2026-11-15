@@ -4,6 +4,8 @@
 // first frame has drawn. Thumbnails, print, reduced motion and browsers
 // without WebGPU keep the PNG.
 import { useIsActivePage } from '@open-slide/core';
+import { animate, motionValue } from 'motion';
+import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import clayStill from './clay-ball.png';
 import { CLAY_EXTENT, CLAY_PX, CLAY_WGSL } from './shader';
@@ -48,9 +50,14 @@ export const ClayBall = ({ x, y, size = 200 }: ClayBallProps) => {
       if (gone) return release();
 
       const time = clock(gpu);
+      // A motion value added to the clock: the ball starts on the still's
+      // exact pose, gives one quick turn as it comes alive, and a spring
+      // settles it into the slow, steady rotation.
+      const kick = motionValue(0);
+      const spin = animate(kick, 6, { type: 'spring', stiffness: 26, damping: 11, delay: 0.3 });
       let first = true;
       const loop = frameLoop(gpu, (frame) => {
-        ball.set({ params: { time: time.time } });
+        ball.set({ params: { time: time.time + kick.get() } });
         frame.pass(face, ball);
         if (first) {
           first = false;
@@ -58,6 +65,7 @@ export const ClayBall = ({ x, y, size = 200 }: ClayBallProps) => {
         }
       });
       release = () => {
+        spin.stop();
         loop.stop();
         gpu.dispose();
       };
@@ -80,12 +88,22 @@ export const ClayBall = ({ x, y, size = 200 }: ClayBallProps) => {
     <div
       style={{ position: 'absolute', left: x - box / 2, top: y - box / 2, width: box, height: box }}
     >
-      <img src={clayStill} alt="" style={{ ...fill, opacity: live ? 0 : 1 }} />
-      <canvas
+      <motion.img
+        src={clayStill}
+        alt=""
+        style={fill}
+        initial={false}
+        animate={{ opacity: live ? 0 : 1 }}
+        transition={{ duration: live ? 0.3 : 0 }}
+      />
+      <motion.canvas
         ref={canvasRef}
         width={CLAY_PX}
         height={CLAY_PX}
-        style={{ ...fill, opacity: live ? 1 : 0 }}
+        style={fill}
+        initial={false}
+        animate={{ opacity: live ? 1 : 0 }}
+        transition={{ duration: live ? 0.3 : 0 }}
       />
     </div>
   );
