@@ -18,7 +18,7 @@ docs/superpowers/      design docs and plans
 - **Bun only.** Use `bun` and `bunx`, not npm, pnpm or yarn. Shared versions live in the `catalog` in the root `package.json`.
 - **Do not add dependencies without asking.**
 - **Third-party skills are not in git.** Impeccable and vgpu install into `.agents/` and `.claude/skills/` at the root, which are ignored. `skills-lock.json` records them; run `bun run skills:restore` after a fresh clone. Add or update them with `npx skills`, which keeps the lockfile current.
-- **Leave third-party code as shipped:** `apps/deck/.agents/` (open-slide's skills, tracked), the React Bits files in `packages/grid-paper/src/` (`DotGrid`, `CursorGrid`, `Crosshair`; local patches are marked `[open-slide]`), and `apps/deck/slides/getting-started/`. Biome skips all of them.
+- **Leave third-party code as shipped:** `apps/deck/.agents/` (open-slide's skills, tracked), the React Bits files in `packages/grid-paper/src/` (`DotGrid`, `CursorGrid`, `Crosshair`; local patches are marked `[open-slide]`). Biome skips them.
 
 ## Commands (from the repo root)
 
