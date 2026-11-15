@@ -1,0 +1,25 @@
+{
+  "name": "deck",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --bun open-slide dev",
+    "build": "bun --bun open-slide build",
+    "preview": "bun --bun open-slide preview",
+    "sync:skills": "bun --bun open-slide sync:skills",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@keynote/clay-ball": "workspace:*",
+    "@keynote/grid-paper": "workspace:*",
+    "@open-slide/core": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  }
+}

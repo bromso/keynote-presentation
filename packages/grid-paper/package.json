@@ -1,0 +1,26 @@
+{
+  "name": "@keynote/grid-paper",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Grid-paper page background with pointer-reactive dots, lines and a crosshair cursor.",
+  "exports": {
+    ".": "./src/index.tsx"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@open-slide/core": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@open-slide/core": "catalog:",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "typescript": "catalog:"
+  }
+}

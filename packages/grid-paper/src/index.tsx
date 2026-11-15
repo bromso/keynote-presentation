@@ -1,3 +1,4 @@
+/// <reference path="./env.d.ts" />
 // Grid Paper: the shared page background for the grid-paper theme.
 //
 // Three layers, all on one module (default 120 px):
@@ -9,7 +10,7 @@
 //   3. Crosshair: two hairlines that follow the pointer, with a readout in
 //      slide units.
 //
-// Import from a slide or theme with:  import { GridPaper } from '@assets/grid-paper';
+// Import from a slide or theme with:  import { GridPaper } from '@keynote/grid-paper';
 import { useIsActivePage } from '@open-slide/core';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import Crosshair from './Crosshair';

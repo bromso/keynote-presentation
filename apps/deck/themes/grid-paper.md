@@ -45,12 +45,12 @@ These are paste-ready. Copy them verbatim into a slide that uses this theme.
 The root of every page. It is a shared module, not pasted code: import it.
 
 ```tsx
-import { GridPaper } from '@assets/grid-paper';
+import { GridPaper } from '@keynote/grid-paper';
 
 <GridPaper>{/* page content */}</GridPaper>
 ```
 
-It lives in `assets/grid-paper/` and draws three layers on one 120 px module:
+It lives in `packages/grid-paper/` and draws three layers on one 120 px module:
 
 - CSS lines and dots. Always present; this is what thumbnails, print and reduced motion show.
 - On the page the audience is watching, React Bits `DotGrid` draws the dots (they swell and darken near the pointer) and `CursorGrid` darkens the lines around the pointer.

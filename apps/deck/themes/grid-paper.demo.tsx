@@ -1,5 +1,5 @@
+import { GridPaper } from '@keynote/grid-paper';
 import { type DesignSystem, type Page, useSlidePageNumber } from '@open-slide/core';
-import { GridPaper } from '@assets/grid-paper';
 import type { ReactNode } from 'react';
 
 export const design: DesignSystem = {
@@ -88,7 +88,9 @@ const Cover: Page = () => (
 
 const Point = ({ n, children }: { n: string; children: ReactNode }) => (
   <div style={{ display: 'flex', alignItems: 'baseline', gap: 36, height: 120 }}>
-    <span style={{ fontFamily: mono, fontSize: 24, letterSpacing: '0.12em', color: muted, width: 84 }}>
+    <span
+      style={{ fontFamily: mono, fontSize: 24, letterSpacing: '0.12em', color: muted, width: 84 }}
+    >
       {n}
     </span>
     <span style={{ fontSize: 44, lineHeight: 1.2 }}>{children}</span>

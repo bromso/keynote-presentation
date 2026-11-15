@@ -1,64 +1,47 @@
-# open-slide workspace
+# keynote-presentation
 
-Slides as React components. Each slide lives under `slides/<id>/index.tsx` and default-exports an array of page components. The `@open-slide/core` runtime handles layout, scaling, navigation, thumbnails, and fullscreen play mode — you just write the pages.
+Talks built with [open-slide](https://open-slide.dev): slides are React components, and this repo is a Bun monorepo around them.
+
+## Layout
+
+```
+apps/deck/             the open-slide workspace: slides, themes, config
+packages/grid-paper/   the grid-paper page background (dots, lines, crosshair cursor)
+packages/clay-ball/    the turning clay ball drawn with vgpu
+docs/superpowers/      design docs and plans
+```
+
+The decks:
+
+- `apps/deck/slides/design-loop` — "Design is a loop now"
+- `apps/deck/slides/getting-started` — the open-slide starter deck
 
 ## Getting started
 
+Requires [Bun](https://bun.sh) 1.4 or newer.
+
 ```bash
-pnpm install
-pnpm dev
+bun install
+bun run dev
 ```
 
-Then open the dev server and edit `slides/getting-started/index.tsx`, or create a new slide at `slides/<your-slide>/index.tsx`.
+## Commands
 
-## Scripts
-
-| Command | Description |
+| Command | What it does |
 | --- | --- |
-| `pnpm dev` | Start the dev server with hot reload. |
-| `pnpm build` | Build a static bundle you can deploy. |
-| `pnpm preview` | Preview the built bundle locally. |
+| `bun run dev` | Start the dev server with hot reload |
+| `bun run build` | Build a static bundle into `apps/deck/dist` |
+| `bun run preview` | Preview the built bundle |
+| `bun run check` | Lint, typecheck and build in one go |
+| `bun run format` | Format and apply safe lint fixes with Biome |
+| `bun run typecheck` | Type-check every workspace |
+| `bun run render:clay` | Redraw the clay ball's still image |
 
-## Authoring a slide
+## Third-party code
 
-```tsx
-// slides/my-slide/index.tsx
-import type { Page, SlideMeta } from '@open-slide/core';
+- `packages/grid-paper/src/` contains three components from [React Bits](https://reactbits.dev) under their licence (`packages/grid-paper/LICENSE-react-bits.md`).
+- `.agents/` and `apps/deck/.agents/` hold installed agent skills.
 
-const Cover: Page = () => (
-  <div style={{ width: '100%', height: '100%' }}>Hello</div>
-);
+Both are marked as vendored in `.gitattributes` and skipped by Biome.
 
-export const meta: SlideMeta = { title: 'My slide' };
-export default [Cover] satisfies Page[];
-```
-
-Every page renders into a fixed **1920 × 1080** canvas — design with absolute pixel values. Put images, videos, and fonts under `slides/<id>/assets/` and import them directly.
-
-See [`CLAUDE.md`](./CLAUDE.md) for the full authoring guide.
-
-## Navigation
-
-- Arrow keys / PageUp / PageDown move between pages.
-- `F` enters fullscreen play mode; Esc exits.
-- In play mode: Space / → next, ← prev.
-
-## Claude Code integration
-
-This workspace ships with Claude Code skills preconfigured under `.claude/skills/` and `.agents/skills/`. Ask Claude Code to "make slides about X" and the `create-slide` skill takes over. Use `apply-comments` to iterate via inspector-style markers inside your source.
-
-## Config
-
-Optional `open-slide.config.ts` at the workspace root:
-
-```ts
-import type { OpenSlideConfig } from '@open-slide/core';
-
-const openSlideConfig: OpenSlideConfig = {
-  port: 5173,
-};
-
-export default openSlideConfig;
-```
-
-Supported fields: `slidesDir`, `port`.
+See [`apps/deck/README.md`](apps/deck/README.md) for how to author a slide.
