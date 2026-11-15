@@ -13,6 +13,7 @@
   "dependencies": {
     "@keynote/clay-ball": "workspace:*",
     "@keynote/grid-paper": "workspace:*",
+    "@keynote/motion": "workspace:*",
     "@open-slide/core": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"

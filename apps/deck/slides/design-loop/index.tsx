@@ -1,5 +1,6 @@
 import { ClayBall } from '@keynote/clay-ball';
 import { GridPaper } from '@keynote/grid-paper';
+import { Reveal } from '@keynote/motion';
 import {
   type DesignSystem,
   ImagePlaceholder,
@@ -45,20 +46,22 @@ const loopMorph: SlideTransition = {
 };
 
 const Title = ({ children, size = 96 }: { children: ReactNode; size?: number }) => (
-  <h1
-    style={{
-      fontFamily: 'var(--osd-font-display)',
-      fontSize: size,
-      fontWeight: 800,
-      lineHeight: 1.04,
-      letterSpacing: '-0.035em',
-      textWrap: 'balance',
-      margin: 0,
-      color: 'var(--osd-text)',
-    }}
-  >
-    {children}
-  </h1>
+  <Reveal>
+    <h1
+      style={{
+        fontFamily: 'var(--osd-font-display)',
+        fontSize: size,
+        fontWeight: 800,
+        lineHeight: 1.04,
+        letterSpacing: '-0.035em',
+        textWrap: 'balance',
+        margin: 0,
+        color: 'var(--osd-text)',
+      }}
+    >
+      {children}
+    </h1>
+  </Reveal>
 );
 
 const Footer = ({ label }: { label: string }) => {
@@ -88,17 +91,19 @@ const Footer = ({ label }: { label: string }) => {
 };
 
 const Lede = ({ children, width = 1200 }: { children: ReactNode; width?: number }) => (
-  <p
-    style={{
-      fontSize: 'var(--osd-size-body)',
-      lineHeight: 1.4,
-      color: muted,
-      margin: '36px 0 0',
-      maxWidth: width,
-    }}
-  >
-    {children}
-  </p>
+  <Reveal order={2}>
+    <p
+      style={{
+        fontSize: 'var(--osd-size-body)',
+        lineHeight: 1.4,
+        color: muted,
+        margin: '36px 0 0',
+        maxWidth: width,
+      }}
+    >
+      {children}
+    </p>
+  </Reveal>
 );
 
 // ── The loop ────────────────────────────────────────────────────────────────
@@ -135,7 +140,17 @@ const Ring = () => (
   </svg>
 );
 
-const LoopNode = ({ i, label, on }: { i: number; label: string; on: boolean }) => {
+const LoopNode = ({
+  i,
+  label,
+  on,
+  intro,
+}: {
+  i: number;
+  label: string;
+  on: boolean;
+  intro?: boolean;
+}) => {
   const { x, y, side } = NODES[i];
   const gap = 44;
   const labelBox =
@@ -146,7 +161,10 @@ const LoopNode = ({ i, label, on }: { i: number; label: string; on: boolean }) =
         : { left: x - gap - 300, top: y - 16, width: 300, textAlign: 'right' as const };
   return (
     <>
-      <div
+      <Reveal
+        from="pop"
+        off={!intro}
+        order={4 + i * 2}
         data-crosshair-target
         style={{
           position: 'absolute',
@@ -160,7 +178,10 @@ const LoopNode = ({ i, label, on }: { i: number; label: string; on: boolean }) =
           background: 'var(--osd-bg)',
         }}
       />
-      <div
+      <Reveal
+        from="fade"
+        off={!intro}
+        order={5 + i * 2}
         style={{
           position: 'absolute',
           ...labelBox,
@@ -174,7 +195,7 @@ const LoopNode = ({ i, label, on }: { i: number; label: string; on: boolean }) =
         }}
       >
         {label}
-      </div>
+      </Reveal>
     </>
   );
 };
@@ -195,7 +216,15 @@ const Marker = ({ at }: { at: number }) => (
   </MorphElement>
 );
 
-const Loop = ({ active, centre }: { active: number | null; centre: string }) => (
+const Loop = ({
+  active,
+  centre,
+  intro,
+}: {
+  active: number | null;
+  centre: string;
+  intro?: boolean;
+}) => (
   <>
     <Ring />
     <div
@@ -218,13 +247,13 @@ const Loop = ({ active, centre }: { active: number | null; centre: string }) => 
     >
       {centre}
     </div>
-    <LoopNode i={0} label="Metaprompt" on={active === 0} />
-    <LoopNode i={1} label="Variants" on={active === 1} />
-    <LoopNode i={2} label="Pick" on={active === 2} />
-    <LoopNode i={3} label="Into Figma" on={active === 3} />
-    <LoopNode i={4} label="Tweak" on={active === 4} />
-    <LoopNode i={5} label="Sync back" on={active === 5} />
-    <LoopNode i={6} label="Polish" on={active === 6} />
+    <LoopNode i={0} intro={intro} label="Metaprompt" on={active === 0} />
+    <LoopNode i={1} intro={intro} label="Variants" on={active === 1} />
+    <LoopNode i={2} intro={intro} label="Pick" on={active === 2} />
+    <LoopNode i={3} intro={intro} label="Into Figma" on={active === 3} />
+    <LoopNode i={4} intro={intro} label="Tweak" on={active === 4} />
+    <LoopNode i={5} intro={intro} label="Sync back" on={active === 5} />
+    <LoopNode i={6} intro={intro} label="Polish" on={active === 6} />
     {active !== null && <Marker at={active} />}
   </>
 );
@@ -236,6 +265,7 @@ const LoopStage = ({
   line,
   tool,
   slot,
+  intro,
 }: {
   active: number | null;
   centre: string;
@@ -243,6 +273,8 @@ const LoopStage = ({
   line: ReactNode;
   tool?: string;
   slot?: ReactNode;
+  /** Pop the nodes in one by one, clockwise. For the page that first shows the loop. */
+  intro?: boolean;
 }) => (
   <GridPaper>
     <div
@@ -257,20 +289,28 @@ const LoopStage = ({
       }}
     >
       <Title size={72}>{title}</Title>
-      <p
-        style={{
-          fontSize: 34,
-          lineHeight: 1.42,
-          color: muted,
-          margin: '32px 0 0',
-          textWrap: 'balance',
-        }}
-      >
-        {line}
-      </p>
-      {slot && <div style={{ marginTop: 40 }}>{slot}</div>}
+      <Reveal order={2}>
+        <p
+          style={{
+            fontSize: 34,
+            lineHeight: 1.42,
+            color: muted,
+            margin: '32px 0 0',
+            textWrap: 'balance',
+          }}
+        >
+          {line}
+        </p>
+      </Reveal>
+      {slot && (
+        <Reveal order={4} style={{ marginTop: 40 }}>
+          {slot}
+        </Reveal>
+      )}
       {tool && (
-        <div
+        <Reveal
+          order={6}
+          from="fade"
           style={{
             marginTop: 'auto',
             fontFamily: mono,
@@ -282,10 +322,10 @@ const LoopStage = ({
         >
           <span style={{ color: muted }}>With </span>
           {tool}
-        </div>
+        </Reveal>
       )}
     </div>
-    <Loop active={active} centre={centre} />
+    <Loop active={active} centre={centre} intro={intro} />
     <Footer label={TALK} />
   </GridPaper>
 );
@@ -301,14 +341,18 @@ const Stop = ({
   y,
   label,
   hollow,
+  order,
 }: {
   x: number;
   y: number;
   label: string;
   hollow?: boolean;
+  order: number;
 }) => (
   <>
-    <div
+    <Reveal
+      from="pop"
+      order={order}
       style={{
         position: 'absolute',
         left: x - 14,
@@ -321,7 +365,9 @@ const Stop = ({
         background: hollow ? 'var(--osd-bg)' : '#161616',
       }}
     />
-    <div
+    <Reveal
+      from="fade"
+      order={order + 1}
       style={{
         position: 'absolute',
         left: x - 180,
@@ -337,43 +383,44 @@ const Stop = ({
       }}
     >
       {label}
-    </div>
+    </Reveal>
   </>
 );
 
 const OldLine = ({ y, broken }: { y: number; broken?: boolean }) => (
   <>
-    <svg
-      width={1920}
-      height={1080}
-      viewBox="0 0 1920 1080"
-      style={{ position: 'absolute', left: 0, top: 0 }}
-      aria-hidden="true"
+    {/* The line draws itself from the first stop. */}
+    <Reveal
+      from="draw"
+      order={3}
+      style={{ position: 'absolute', left: 0, top: 0, transformOrigin: `240px ${y}px` }}
     >
-      <line x1={240} y1={y} x2={broken ? 960 : 1744} y2={y} stroke="#161616" strokeWidth={2} />
-      {broken && (
-        <line
-          x1={960}
-          y1={y}
-          x2={1744}
-          y2={y}
-          stroke="#6e6e68"
+      <svg width={1920} height={1080} viewBox="0 0 1920 1080" aria-hidden="true">
+        <line x1={240} y1={y} x2={broken ? 960 : 1744} y2={y} stroke="#161616" strokeWidth={2} />
+        {broken && (
+          <line
+            x1={960}
+            y1={y}
+            x2={1744}
+            y2={y}
+            stroke="#6e6e68"
+            strokeWidth={2}
+            strokeDasharray="4 14"
+          />
+        )}
+        <path
+          d={`M 1722 ${y - 12} L 1746 ${y} L 1722 ${y + 12}`}
+          fill="none"
+          stroke={broken ? '#6e6e68' : '#161616'}
           strokeWidth={2}
-          strokeDasharray="4 14"
         />
-      )}
-      <path
-        d={`M 1722 ${y - 12} L 1746 ${y} L 1722 ${y + 12}`}
-        fill="none"
-        stroke={broken ? '#6e6e68' : '#161616'}
-        strokeWidth={2}
-      />
-    </svg>
-    <Stop x={240} y={y} label="Brief" />
-    <Stop x={600} y={y} label="Wireframes" />
-    <Stop x={960} y={y} label="Mockups" />
-    <Stop x={1320} y={y} label="Handoff" hollow={broken} />
-    <Stop x={1680} y={y} label="Build" hollow={broken} />
+      </svg>
+    </Reveal>
+    <Stop x={240} y={y} label="Brief" order={3} />
+    <Stop x={600} y={y} label="Wireframes" order={5} />
+    <Stop x={960} y={y} label="Mockups" order={7} />
+    <Stop x={1320} y={y} label="Handoff" hollow={broken} order={9} />
+    <Stop x={1680} y={y} label="Build" hollow={broken} order={11} />
   </>
 );
 
@@ -437,6 +484,7 @@ const TheLoop: Page = () => (
   <LoopStage
     active={null}
     centre="7"
+    intro
     title="I work in a loop."
     line="Seven moves. The last one hands me back to the first."
   />
@@ -529,8 +577,19 @@ const BackToStart: Page = () => (
   />
 );
 
-const Row = ({ label, before, after }: { label: string; before: string; after: string }) => (
-  <div
+const Row = ({
+  label,
+  before,
+  after,
+  order,
+}: {
+  label: string;
+  before: string;
+  after: string;
+  order: number;
+}) => (
+  <Reveal
+    order={order}
     style={{
       height: 120,
       display: 'grid',
@@ -553,7 +612,7 @@ const Row = ({ label, before, after }: { label: string; before: string; after: s
     </span>
     <span style={{ fontSize: 38, color: muted }}>{before}</span>
     <span style={{ fontSize: 38, fontWeight: 650 }}>{after}</span>
-  </div>
+  </Reveal>
 );
 
 const OldVsNew: Page = () => (
@@ -578,9 +637,19 @@ const OldVsNew: Page = () => (
         <span style={{ color: muted }}>The line</span>
         <span>The loop</span>
       </div>
-      <Row label="The artifact" before="A picture of the product" after="A prototype that works" />
-      <Row label="The handoff" before="A meeting and a spec" after="A sync in both directions" />
-      <Row label="My time" before="Drawing screens" after="Choosing and refining" />
+      <Row
+        order={3}
+        label="The artifact"
+        before="A picture of the product"
+        after="A prototype that works"
+      />
+      <Row
+        order={5}
+        label="The handoff"
+        before="A meeting and a spec"
+        after="A sync in both directions"
+      />
+      <Row order={7} label="My time" before="Drawing screens" after="Choosing and refining" />
     </div>
     <Footer label={TALK} />
   </GridPaper>
@@ -602,8 +671,9 @@ const StaysHuman: Page = () => (
   </GridPaper>
 );
 
-const Cost = ({ children }: { children: ReactNode }) => (
-  <div
+const Cost = ({ children, order }: { children: ReactNode; order: number }) => (
+  <Reveal
+    order={order}
     style={{
       height: 120,
       display: 'flex',
@@ -614,7 +684,7 @@ const Cost = ({ children }: { children: ReactNode }) => (
     }}
   >
     <span style={{ fontSize: 44, lineHeight: 1.2 }}>{children}</span>
-  </div>
+  </Reveal>
 );
 
 const WhatItCosts: Page = () => (
@@ -623,16 +693,17 @@ const WhatItCosts: Page = () => (
       <Title>It is not free.</Title>
     </div>
     <div style={{ position: 'absolute', left: 120, top: 480, width: 1680 }}>
-      <Cost>More output means more to review.</Cost>
-      <Cost>It is easy to polish the wrong flow.</Cost>
-      <Cost>You have to be able to read what it makes.</Cost>
+      <Cost order={3}>More output means more to review.</Cost>
+      <Cost order={5}>It is easy to polish the wrong flow.</Cost>
+      <Cost order={7}>You have to be able to read what it makes.</Cost>
     </div>
     <Footer label={TALK} />
   </GridPaper>
 );
 
-const Arc = ({ children }: { children: ReactNode }) => (
-  <div
+const Arc = ({ children, order }: { children: ReactNode; order: number }) => (
+  <Reveal
+    order={order}
     style={{
       height: 120,
       padding: '0 40px',
@@ -648,7 +719,7 @@ const Arc = ({ children }: { children: ReactNode }) => (
     }}
   >
     {children}
-  </div>
+  </Reveal>
 );
 
 const TryOneArc: Page = () => (
@@ -662,9 +733,9 @@ const TryOneArc: Page = () => (
       <Lede>Pick the move closest to how you already work. Do it once.</Lede>
     </div>
     <div style={{ position: 'absolute', left: 120, top: 720, display: 'flex', gap: 40 }}>
-      <Arc>Questions before pixels</Arc>
-      <Arc>Prototype to Figma</Arc>
-      <Arc>Figma to code</Arc>
+      <Arc order={5}>Questions before pixels</Arc>
+      <Arc order={7}>Prototype to Figma</Arc>
+      <Arc order={9}>Figma to code</Arc>
     </div>
     <Footer label={TALK} />
   </GridPaper>

@@ -12,6 +12,7 @@
 //
 // Import from a slide or theme with:  import { GridPaper } from '@keynote/grid-paper';
 import { useIsActivePage } from '@open-slide/core';
+import { motion } from 'motion/react';
 import { type ReactNode, useEffect, useRef, useState } from 'react';
 import Crosshair from './Crosshair';
 import CursorGrid from './CursorGrid';
@@ -95,6 +96,15 @@ export const GridPaper = ({
   const moving = onStage && !calm;
   const scale = useScreenScale(rootRef, moving);
   const liveOn = moving && live && scale > 0;
+
+  // The live layers fade in over the CSS grid. The CSS dots stay underneath
+  // until that fade has finished, then hand over to DotGrid's.
+  const [handedOver, setHandedOver] = useState(false);
+  // A new scale remounts the layers, so the fade (and the handover) starts over.
+  useEffect(() => {
+    setHandedOver(false);
+  }, [liveOn, scale]);
+  const cssDots = !(liveOn && handedOver);
   const cursorOn = moving && cursor && scale > 0;
 
   // The React Bits grids centre themselves in their box. A box that bleeds half
@@ -118,18 +128,25 @@ export const GridPaper = ({
         position: 'relative',
         overflow: 'hidden',
         backgroundColor: 'var(--osd-bg)',
-        // The CSS lines always stay: they are crisp at any scale. Live, DotGrid
-        // takes over the dots, so the CSS dots step aside.
-        backgroundImage: liveOn ? linesCss(line) : `${dotsCss(dot, dotSize)}, ${linesCss(line)}`,
+        // The CSS lines always stay: they are crisp at any scale. Once the live
+        // layers have faded in, DotGrid owns the dots and the CSS dots step aside.
+        backgroundImage: cssDots ? `${dotsCss(dot, dotSize)}, ${linesCss(line)}` : linesCss(line),
         backgroundSize: `${module}px ${module}px`,
-        backgroundPosition: liveOn ? '0 0, 0 0' : `${-module / 2}px ${-module / 2}px, 0 0, 0 0`,
+        backgroundPosition: cssDots ? `${-module / 2}px ${-module / 2}px, 0 0, 0 0` : '0 0, 0 0',
         color: 'var(--osd-text)',
         fontFamily: 'var(--osd-font-body)',
         WebkitFontSmoothing: 'antialiased',
       }}
     >
       {liveOn ? (
-        <div key={`grid-${scale}`} style={bleed}>
+        <motion.div
+          key={`grid-${scale}`}
+          style={bleed}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: 'easeOut' }}
+          onAnimationComplete={() => setHandedOver(true)}
+        >
           {/* Half a pixel over, so a lit line lands on the CSS line, which is drawn
               from the module edge inwards and not centred on it. */}
           <div style={{ position: 'absolute', inset: 0, transform: 'translate(0.5px, 0.5px)' }}>
@@ -170,7 +187,7 @@ export const GridPaper = ({
               clickShock={false}
             />
           </div>
-        </div>
+        </motion.div>
       ) : null}
       {children}
       {cursorOn ? (

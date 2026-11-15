@@ -6,6 +6,7 @@ A Bun monorepo. The slides are an open-slide app; the code they share lives in w
 apps/deck/             open-slide workspace: slides/, themes/, open-slide.config.ts
 packages/grid-paper/   @keynote/grid-paper: GridPaper background, React Bits dots, lines and crosshair
 packages/clay-ball/    @keynote/clay-ball: the vgpu clay ball, its shader, still PNG and render script
+packages/motion/       @keynote/motion: Reveal and shared timing, built on Motion (motion.dev)
 docs/superpowers/      design docs and plans
 ```
 
