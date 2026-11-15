@@ -1,5 +1,7 @@
 # Design loop deck — design
 
+> **Note (added after the fact):** this was written before the repo became a Bun monorepo. Paths have moved since: `slides/` → `apps/deck/slides/`, `themes/` → `apps/deck/themes/`, `open-slide.config.ts` → `apps/deck/open-slide.config.ts`, `assets/grid-paper/` → `packages/grid-paper/src/`, the clay ball code in the slide file → `packages/clay-ball/`, and `docs/superpowers/render-clay-ball.mjs` → `packages/clay-ball/scripts/render.ts`. The `getting-started` deck has been removed. The text below is unchanged.
+
 Date: 2026-11-15
 
 ## Intent

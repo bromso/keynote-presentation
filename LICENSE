@@ -1,0 +1,50 @@
+MIT License
+
+Copyright (c) 2026 Jonas Broms
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+
+What this licence covers, and what it does not
+
+The MIT licence above covers the code in this repository written for it: the
+workspace packages under packages/, the grid-paper theme under
+apps/deck/themes/, and the configuration and tooling at the repository root.
+
+It does not cover the following, which stay under the terms stated here:
+
+1. The talk. The content of apps/deck/slides/ (slide text, speaker notes,
+   structure and images) and the documents under docs/ are
+   Copyright (c) 2026 Jonas Broms, all rights reserved. Reading and running
+   them is welcome; republishing or presenting them as your own is not
+   permitted without written permission. Code patterns in those files may be
+   reused under the MIT licence above.
+
+2. React Bits components. packages/grid-paper/src/DotGrid.tsx, DotGrid.css,
+   CursorGrid.tsx, CursorGrid.css and Crosshair.tsx are from React Bits by
+   David Haz and remain under their own licence (MIT with the Commons Clause),
+   reproduced in packages/grid-paper/LICENSE-react-bits.md.
+
+3. Inter. apps/deck/assets/fonts/InterVariable.woff2 is by The Inter Project
+   Authors and remains under the SIL Open Font License 1.1, reproduced in
+   apps/deck/assets/fonts/LICENSE.txt.
+
+4. Installed agent skills under apps/deck/.agents/ belong to their authors
+   and keep their own terms.

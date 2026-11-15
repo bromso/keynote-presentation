@@ -1,5 +1,7 @@
 # Bun monorepo, TypeScript and Biome — design
 
+> **Note (added after the fact):** since this was written, the third-party skills were taken out of git (`bun run skills:restore`), the `getting-started` deck was removed, a third package `packages/motion` was added, and CI now exists. The text below is unchanged.
+
 Date: 2026-11-15
 
 ## Intent

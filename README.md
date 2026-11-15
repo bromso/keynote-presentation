@@ -51,4 +51,13 @@ Two more agent skills, Impeccable and vgpu, are listed in `skills-lock.json` but
 bun run skills:restore
 ```
 
+## Online
+
+Every push to `main` is checked and published to GitHub Pages by `.github/workflows/ci.yml`:
+<https://bromso.github.io/keynote-presentation/>
+
+## Licence
+
+The code (packages, theme, tooling) is MIT. The talk itself, meaning the slides, speaker notes and the documents under `docs/`, is all rights reserved. React Bits components and the Inter font keep their own licences. [`LICENSE`](LICENSE) has the details.
+
 See [`apps/deck/README.md`](apps/deck/README.md) for how to author a slide.
