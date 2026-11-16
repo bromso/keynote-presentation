@@ -1,0 +1,43 @@
+name: Bug report
+description: Something in the deck or a package doesn't work as it should.
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Which slide and page, or which command? A deep link such as `/s/showcase?p=5` helps.
+      placeholder: |
+        1. Run `bun run dev`
+        2. Open ...
+        3. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Where
+      options:
+        - Live deck (GitHub Pages)
+        - Local dev server
+        - Local build or preview
+        - CI
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser, OS and Bun version
+      placeholder: Chrome 140, macOS 26, Bun 1.4.4
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console output or screenshots
+      render: text
