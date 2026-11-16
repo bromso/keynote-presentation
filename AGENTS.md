@@ -19,6 +19,8 @@ docs/superpowers/      design docs and plans
 - **Do not add dependencies without asking.**
 - **CI and hosting:** `.github/workflows/ci.yml` runs `bun run check` on every pull request and push to `main`, then publishes `main` to GitHub Pages under `/keynote-presentation/`. The base path comes from `DECK_BASE`, read in `apps/deck/open-slide.config.ts`; never hard-code it.
 - **Third-party skills are not in git.** Impeccable and vgpu install into `.agents/` and `.claude/skills/` at the root, which are ignored. `skills-lock.json` records them; run `bun run skills:restore` after a fresh clone. Add or update them with `npx skills`, which keeps the lockfile current.
+- **Community docs live in `.github/`:** `CONTRIBUTING.md`, `SECURITY.md`, `CODEOWNERS`, the pull request template and issue forms. When you change a command or a rule here, update `README.md` and `.github/CONTRIBUTING.md` to match.
+- **Community docs live in `.github/`:** `CONTRIBUTING.md`, `SECURITY.md`, `CODEOWNERS`, the pull request template and issue forms. When you change a command or a rule here, update `README.md` and `.github/CONTRIBUTING.md` to match.
 - **Leave third-party code as shipped:** `apps/deck/.agents/` (open-slide's skills, tracked), the React Bits files in `packages/grid-paper/src/` (`DotGrid`, `CursorGrid`, `Crosshair`; local patches are marked `[open-slide]`). Biome skips them.
 
 ## Commands (from the repo root)

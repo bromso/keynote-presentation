@@ -1,0 +1,21 @@
+name: Idea or improvement
+description: Suggest a change to the deck, the theme or a package.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you change?
+      description: Which package or slide, and roughly how. Mention any new dependency it would need.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you considered

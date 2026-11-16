@@ -1,0 +1,20 @@
+# Code owners are asked to review every pull request that touches their paths.
+# The last matching pattern wins. Docs: https://docs.github.com/articles/about-code-owners
+
+# Everything
+*                               @bromso
+
+# CI, hosting and repo policy
+/.github/                       @bromso
+/netlify.toml                   @bromso
+/vercel.json                    @bromso
+
+# Agent rules and pinned third-party skills
+/AGENTS.md                      @bromso
+/CLAUDE.md                      @bromso
+/skills-lock.json               @bromso
+
+# Licensing
+/LICENSE                        @bromso
+/packages/grid-paper/LICENSE-react-bits.md  @bromso
+/apps/deck/assets/fonts/LICENSE.txt         @bromso

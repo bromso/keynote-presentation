@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/bromso/keynote-presentation/security/advisories/new
+    about: Please report security problems privately, not in a public issue.
+  - name: open-slide
+    url: https://open-slide.dev
+    about: Problems with the open-slide runtime itself belong upstream.
